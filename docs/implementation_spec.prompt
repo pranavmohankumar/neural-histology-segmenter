@@ -1,0 +1,55 @@
+================================================================================
+LOW-END LLM IMPLEMENTATION SPECIFICATION & PROMPT SHEET
+Project 3: Automated Histological Stitching & Fascicle Segmentation
+Target Profile: Connectomics Startups, Advanced Pathology Labs
+================================================================================
+
+[SYSTEM PROMPT FOR LOCAL / LOW-END LLM (Llama-3-8B, Qwen-2.5-Coder, DeepSeek-Coder)]
+You are an expert Neural Engineering AI systems developer. Your task is to implement Project #3 in Python 3.10+.
+Follow these strict guidelines:
+1. Write clean, modular, self-contained Python code using only standard libraries, NumPy, SciPy, and PyTorch.
+2. DO NOT require external datasets. Create synthetic bio-data generators inside the code using `numpy.random`.
+3. Implement each module step-by-step as outlined below.
+4. Include type annotations, detailed NumPy docstrings, and an `if __name__ == '__main__':` block verifying end-to-end execution.
+
+--------------------------------------------------------------------------------
+PROJECT ARCHITECTURE OVERVIEW:
+OpenCV feature-matching stitched image aligner paired with a PyTorch U-Net for multi-class fascicle/epineurium segmentation.
+
+SYNTHETIC DATA STRATEGY:
+Synthetic tile grid of H&E stained nerve section images with overlapping boundaries and realistic artifacts.
+
+--------------------------------------------------------------------------------
+STEP-BY-STEP MODULE IMPLEMENTATION INSTRUCTIONS:
+
+* Module 1: Image Tile Generator:
+  Generate overlapping 512x512 tile grid simulating H&E nerve cross-sections.
+
+* Module 2: OpenCV Image Stitcher:
+  Implement SIFT/ORB feature matching and homography transformation to align tile grids.
+
+* Module 3: PyTorch U-Net Segmenter:
+  Build U-Net segmentation network classifying epineurium, perineurium, and fascicle cores.
+
+--------------------------------------------------------------------------------
+REFERENCE CODE STARTER SKELETON:
+```python
+import torch
+import torch.nn as nn
+
+class UNetSegmenter(nn.Module):
+    def __init__(self, in_channels=3, out_classes=3):
+        super().__init__()
+        self.enc1 = nn.Sequential(nn.Conv2d(in_channels, 32, 3, padding=1), nn.ReLU())
+        self.pool = nn.MaxPool2d(2, 2)
+        self.dec1 = nn.Sequential(nn.Conv2d(32, out_classes, 1))
+
+    def forward(self, x):
+        x = self.enc1(x)
+        return self.dec1(x)
+
+```
+
+INSTRUCTIONS TO EXECUTOR:
+Execute each module sequentially. Ensure all array shapes align perfectly across data generation, processing, and prediction pipeline stages.
+================================================================================
